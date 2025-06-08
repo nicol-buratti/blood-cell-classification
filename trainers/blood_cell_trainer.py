@@ -32,7 +32,10 @@ class ConvBloodCellTrainer(BaseTrain):
             write_graph=self.config.callbacks.tensorboard_write_graph,
         )
 
-        early_stopping = EarlyStopping(monitor="val_loss", patience=5)
+        early_stopping = EarlyStopping(
+            monitor=self.config.callbacks.earlystopping_monitor,
+            patience=self.config.callbacks.earlystopping_patience,
+        )
 
         self.callbacks = [checkpoint_callback, tensorboard_callback, early_stopping]
 

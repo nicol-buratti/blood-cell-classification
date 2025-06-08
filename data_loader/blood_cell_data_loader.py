@@ -11,13 +11,14 @@ class BloodCellDataLoader(BaseDataLoader):
         test_path = Path(config.data_loader.images_path) / "TEST"
 
         self.train_dataset = tf.keras.preprocessing.image_dataset_from_directory(
-            train_path, image_size=(224, 224), batch_size=32, label_mode="categorical"
+            train_path,
+            batch_size=config.data_loader.batch_size,
+            label_mode="categorical",
         )
 
         self.test_dataset = tf.keras.preprocessing.image_dataset_from_directory(
             test_path,
-            image_size=(224, 224),
-            batch_size=32,
+            batch_size=config.data_loader.batch_size,
             label_mode="categorical",
         )
 

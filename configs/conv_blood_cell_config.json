@@ -3,7 +3,8 @@
     "name": "conv_blood_cell"
   },
   "data_loader": {
-    "images_path": "data/images"
+    "images_path": "datasets/images",
+    "batch_size": 32
   },
   "model": {
     "learning_rate": 0.001,
@@ -20,6 +21,8 @@
     "checkpoint_save_best_only": true,
     "checkpoint_save_weights_only": true,
     "checkpoint_verbose": true,
-    "tensorboard_write_graph": true
+    "tensorboard_write_graph": true,
+    "earlystopping_monitor": "val_loss",
+    "earlystopping_patience": 5
   }
 }

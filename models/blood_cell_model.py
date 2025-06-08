@@ -11,7 +11,7 @@ class ConvBloodCellModel(BaseModel):
     def build_model(self):
         self.model = Sequential(
             [
-                layers.Rescaling(1.0 / 255, input_shape=(224, 224, 3)),
+                layers.Rescaling(1.0 / 255, input_shape=(256, 256, 3)),
                 layers.Conv2D(128, (5, 5), strides=(3, 3), activation="relu"),
                 layers.BatchNormalization(),
                 layers.Conv2D(
