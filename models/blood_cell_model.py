@@ -11,12 +11,15 @@ class ConvBloodCellModel(BaseModel):
     def build_model(self):
         self.model = Sequential(
             [
-                layers.Rescaling(1.0 / 255, input_shape=(256, 256, 3)),
-                layers.Conv2D(128, (5, 5), strides=(3, 3), activation="relu"),
+                layers.Input(shape=(256, 256, 3)),
+                layers.Rescaling(1.0 / 255),
+                layers.Conv2D(64, (5, 5), strides=(3, 3), activation="relu"),
                 layers.BatchNormalization(),
                 layers.Conv2D(
-                    256, (5, 5), strides=(2, 2), activation="relu", padding="same"
+                    64, (5, 5), strides=(2, 2), activation="relu", padding="same"
                 ),
+                layers.BatchNormalization(),
+                layers.Conv2D(64, (3, 3), activation="relu", padding="same"),
                 layers.BatchNormalization(),
                 layers.MaxPool2D(pool_size=(3, 3)),
                 layers.Conv2D(256, (3, 3), activation="relu", padding="same"),
@@ -25,12 +28,12 @@ class ConvBloodCellModel(BaseModel):
                 layers.BatchNormalization(),
                 layers.Conv2D(256, (3, 3), activation="relu", padding="same"),
                 layers.BatchNormalization(),
-                layers.Conv2D(512, (3, 3), activation="relu", padding="same"),
+                layers.Conv2D(256, (3, 3), activation="relu", padding="same"),
                 layers.BatchNormalization(),
                 layers.MaxPool2D(),
-                layers.Conv2D(512, (3, 3), activation="relu", padding="same"),
+                layers.Conv2D(224, (3, 3), activation="relu", padding="same"),
                 layers.BatchNormalization(),
-                layers.Conv2D(512, (3, 3), activation="relu", padding="same"),
+                layers.Conv2D(224, (3, 3), activation="relu", padding="same"),
                 layers.BatchNormalization(),
                 layers.MaxPool2D(),
                 layers.Conv2D(512, (3, 3), activation="relu", padding="same"),
