@@ -26,7 +26,7 @@ def main():
     model = ConvBloodCellModel(config)
 
     print("Create the trainer")
-    trainer = ConvBloodCellTrainer(model.model, data_loader.get_train_data(), config)
+    trainer = ConvBloodCellTrainer(model.model, (data_loader.get_train_data(), data_loader.get_test_data()), config)
 
     print("Start training the model.")
     trainer.train()

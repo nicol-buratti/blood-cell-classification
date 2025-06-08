@@ -1,4 +1,3 @@
-from gc import callbacks
 from base.base_trainer import BaseTrain
 import os
 from keras.callbacks import ModelCheckpoint, TensorBoard, EarlyStopping
@@ -18,7 +17,7 @@ class ConvBloodCellTrainer(BaseTrain):
         checkpoint_callback = ModelCheckpoint(
             filepath=os.path.join(
                 self.config.callbacks.checkpoint_dir,
-                "%s-{epoch:02d}-{val_loss:.2f}.hdf5" % self.config.exp.name,
+                "%s-{epoch:02d}-{val_loss:.2f}.weights.h5" % self.config.exp.name,
             ),
             monitor=self.config.callbacks.checkpoint_monitor,
             mode=self.config.callbacks.checkpoint_mode,
@@ -41,13 +40,14 @@ class ConvBloodCellTrainer(BaseTrain):
 
     def train(self):
         history = self.model.fit(
-            self.data,
+            self.data[0],
+            validation_data = self.data[1],
             epochs=self.config.trainer.num_epochs,
             verbose=self.config.trainer.verbose_training,
             batch_size=self.config.trainer.batch_size,
             callbacks=self.callbacks,
         )
         self.loss.extend(history.history["loss"])
-        self.acc.extend(history.history["acc"])
+        self.acc.extend(history.history["accuracy"])
         self.val_loss.extend(history.history["val_loss"])
-        self.val_acc.extend(history.history["val_acc"])
+        self.val_acc.extend(history.history["val_accuracy"])
