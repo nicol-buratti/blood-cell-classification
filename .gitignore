@@ -110,6 +110,7 @@ ENV/
 experiments/
 
 #datasets
-datasets/
+datasets/*
+!datasets/.gitkeep
 
 .idea/
