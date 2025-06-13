@@ -4,7 +4,7 @@ from trainers.blood_cell_trainer import ConvBloodCellTrainer
 from utils.config import process_config
 from utils.dirs import create_dirs
 from utils.utils import get_args
-
+from tensorflow.random import set_seed
 
 def main():
     # capture the config path from the run arguments
@@ -15,6 +15,9 @@ def main():
     except:
         print("missing or invalid arguments")
         exit(0)
+
+    # set global tensorflow seed
+    set_seed(config.exp.seed)
 
     # create the experiments dirs
     create_dirs([config.callbacks.tensorboard_log_dir, config.callbacks.checkpoint_dir])

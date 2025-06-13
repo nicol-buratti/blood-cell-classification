@@ -1,6 +1,7 @@
 {
   "exp": {
-    "name": "conv_blood_cell"
+    "name": "conv_blood_cell",
+    "seed": 42
   },
   "data_loader": {
     "images_path": "datasets/images",
