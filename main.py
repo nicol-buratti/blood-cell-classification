@@ -1,10 +1,17 @@
+from pathlib import Path
+
 from data_loader.blood_cell_data_loader import BloodCellDataLoader
 from models.blood_cell_model import ConvBloodCellModel
 from trainers.blood_cell_trainer import ConvBloodCellTrainer
 from utils.config import process_config
+
 from utils.dirs import create_dirs
 from utils.utils import get_args
+
 from tensorflow.random import set_seed
+from kagglehub import dataset_download
+import shutil
+
 
 def main():
     # capture the config path from the run arguments
@@ -15,6 +22,13 @@ def main():
     except:
         print("missing or invalid arguments")
         exit(0)
+
+    dataset_path = dataset_download("paultimothymooney/blood-cells/version/6")
+    shutil.move(
+        Path(dataset_path) / "dataset2-master" / "dataset2-master" / "images",
+        Path("datasets") / "images",
+    )
+    shutil.rmtree(Path(dataset_path))
 
     # set global tensorflow seed
     set_seed(config.exp.seed)
@@ -29,7 +43,9 @@ def main():
     model = ConvBloodCellModel(config)
 
     print("Create the trainer")
-    trainer = ConvBloodCellTrainer(model.model, (data_loader.get_train_data(), data_loader.get_test_data()), config)
+    trainer = ConvBloodCellTrainer(
+        model.model, (data_loader.get_train_data(), data_loader.get_test_data()), config
+    )
 
     print("Start training the model.")
     trainer.train()
