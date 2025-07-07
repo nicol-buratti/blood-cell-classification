@@ -23,12 +23,15 @@ def main():
         print("missing or invalid arguments")
         exit(0)
 
-    dataset_path = dataset_download("paultimothymooney/blood-cells/version/6")
-    shutil.move(
-        Path(dataset_path) / "dataset2-master" / "dataset2-master" / "images",
-        Path("datasets") / "images",
-    )
-    shutil.rmtree(Path(dataset_path))
+    if not Path(config.data_loader.images_path).exists():
+        try:
+            dataset_path = dataset_download("paultimothymooney/blood-cells/version/6")
+            shutil.move(
+                Path(dataset_path) / "dataset2-master" / "dataset2-master" / "images",
+                Path(config.data_loader.images_path),
+            )
+        finally:
+            shutil.rmtree(Path(dataset_path))
 
     # set global tensorflow seed
     set_seed(config.exp.seed)
