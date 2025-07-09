@@ -16,20 +16,20 @@ class ConvBloodCellModel(BaseModel):
                 layers.Input(shape=(256, 256, 3)),
                 layers.Rescaling(1.0 / 255),
 
-                #Data Augmentation Layers
+                # Data Augmentation Layers
                 layers.RandomFlip("horizontal_and_vertical"),
                 layers.RandomRotation(0.15), # Rotate by up to 15 degrees
                 layers.RandomZoom(0.2),      # Zoom in/out by up to 20%
                 layers.RandomContrast(0.2),  # Adjust contrast by up to 20%
                 layers.RandomTranslation(height_factor=0.1, width_factor=0.1), # Shift images
 
-                 # --- First Convolutional Block ---
+                # First Convolutional Block
                 layers.Conv2D(32, (5, 5), strides=(2, 2), activation="relu", padding="same"),
                 layers.BatchNormalization(),
                 layers.MaxPool2D(pool_size=(2, 2)), 
                 layers.Dropout(0.25),
 
-                # --- Second Convolutional Block ---
+                # Second Convolutional Block
                 layers.Conv2D(64, (3, 3), activation="relu", padding="same"),
                 layers.BatchNormalization(),
                 layers.Conv2D(64, (3, 3), activation="relu", padding="same"),
@@ -37,7 +37,7 @@ class ConvBloodCellModel(BaseModel):
                 layers.MaxPool2D(pool_size=(2, 2)),
                 layers.Dropout(0.3),
 
-                # --- Third Convolutional Block ---
+                # Third Convolutional Block
                 layers.Conv2D(128, (3, 3), activation="relu", padding="same"),
                 layers.BatchNormalization(),
                 layers.Conv2D(128, (3, 3), activation="relu", padding="same"),
@@ -45,7 +45,7 @@ class ConvBloodCellModel(BaseModel):
                 layers.MaxPool2D(pool_size=(2, 2)),
                 layers.Dropout(0.35),
 
-                # --- Fourth Convolutional Block ---
+                # Fourth Convolutional Block
                 layers.Conv2D(256, (3, 3), activation="relu", padding="same"),
                 layers.BatchNormalization(),
                 layers.Conv2D(256, (3, 3), activation="relu", padding="same"),
@@ -53,7 +53,7 @@ class ConvBloodCellModel(BaseModel):
                 layers.MaxPool2D(pool_size=(2, 2)),
                 layers.Dropout(0.4),
 
-                 # --- Classifier Head ---
+                 # Classifier Head
                 layers.GlobalAveragePooling2D(), # Efficiently flattens feature maps
                 layers.Dense(512, activation="relu", kernel_regularizer=l2_reg),
                 layers.BatchNormalization(), 
