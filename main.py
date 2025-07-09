@@ -25,6 +25,7 @@ def main():
 
     if not Path(config.data_loader.images_path).exists():
         try:
+            print("Dataset not found, downloading...")
             dataset_path = dataset_download("paultimothymooney/blood-cells/version/6")
             shutil.move(
                 Path(dataset_path) / "dataset2-master" / "dataset2-master" / "images",
@@ -46,9 +47,7 @@ def main():
     model = ConvBloodCellModel(config)
 
     print("Create the trainer")
-    trainer = ConvBloodCellTrainer(
-        model.model, (data_loader.get_train_data(), data_loader.get_test_data()), config
-    )
+    trainer = ConvBloodCellTrainer(model.model, data_loader, config)
 
     print("Start training the model.")
     trainer.train()

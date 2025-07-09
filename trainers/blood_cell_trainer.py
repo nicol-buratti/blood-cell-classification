@@ -40,8 +40,8 @@ class ConvBloodCellTrainer(BaseTrain):
 
     def train(self):
         history = self.model.fit(
-            self.data[0],
-            validation_data = self.data[1],
+            self.data.get_train_data(),
+            validation_data=self.data.get_test_data(),
             epochs=self.config.trainer.num_epochs,
             verbose=self.config.trainer.verbose_training,
             batch_size=self.config.trainer.batch_size,
