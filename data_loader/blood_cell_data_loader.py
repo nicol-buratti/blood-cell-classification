@@ -8,8 +8,20 @@ class BloodCellDataLoader(BaseDataLoader):
     def __init__(self, config):
         super(BloodCellDataLoader, self).__init__(config)
 
-        train_path = Path(config.data_loader.images_path) / "TRAIN"
-        test_path = Path(config.data_loader.images_path) / "TEST"
+        preprocess_enabled = getattr(config.data_loader, 'enable_preprocessing', False)
+        preprocessed_path = getattr(config.data_loader, 'preprocessed_images_path', None)
+
+        images_path = Path(config.data_loader.images_path)
+
+        if preprocess_enabled and preprocessed_path and Path(preprocessed_path).exists() and (Path(preprocessed_path) / "TRAIN").exists():
+            print("Use preprocessed dataset")
+            train_path = Path(preprocessed_path) / "TRAIN"
+        else:
+            print("Use original dataset")
+            train_path = images_path / "TRAIN"
+
+            
+        test_path = images_path / "TEST"
 
         self.data_augmentation = tf.keras.Sequential([
             layers.RandomFlip("horizontal_and_vertical"),
@@ -22,15 +34,24 @@ class BloodCellDataLoader(BaseDataLoader):
             train_path,
             batch_size=config.data_loader.batch_size,
             label_mode="categorical",
+            image_size=(256, 256),
+            shuffle=True,
+            seed=getattr(config.exp, 'seed', 42)
         )
 
         self.test_dataset = tf.keras.preprocessing.image_dataset_from_directory(
             test_path,
             batch_size=config.data_loader.batch_size,
             label_mode="categorical",
+            image_size=(256, 256),
+            shuffle=False
         )
 
+        self.class_names = self.train_dataset.class_names
+        print(f"Found {len(self.class_names)} classes: {self.class_names}")
+
         AUTOTUNE = tf.data.AUTOTUNE
+
         self.train_dataset = self.train_dataset.map(
             lambda x, y: (self.data_augmentation(x, training=True), y),
             num_parallel_calls=AUTOTUNE
@@ -38,9 +59,11 @@ class BloodCellDataLoader(BaseDataLoader):
 
         self.test_dataset = self.test_dataset.prefetch(buffer_size=AUTOTUNE)
 
-
     def get_train_data(self):
         return self.train_dataset
 
     def get_test_data(self):
         return self.test_dataset
+
+    def get_class_names(self):
+        return self.class_names

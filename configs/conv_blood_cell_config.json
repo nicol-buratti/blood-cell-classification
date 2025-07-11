@@ -5,6 +5,8 @@
   },
   "data_loader": {
     "images_path": "datasets/images",
+    "preprocessed_images_path": "datasets/preprocessed_images/TRAIN",
+    "enable_preprocessing": true,
     "batch_size": 32
   },
   "model": {
