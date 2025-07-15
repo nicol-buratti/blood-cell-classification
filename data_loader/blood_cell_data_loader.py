@@ -8,20 +8,8 @@ class BloodCellDataLoader(BaseDataLoader):
     def __init__(self, config):
         super(BloodCellDataLoader, self).__init__(config)
 
-        preprocess_enabled = getattr(config.data_loader, 'enable_preprocessing', False)
-        preprocessed_path = getattr(config.data_loader, 'preprocessed_images_path', None)
-
-        images_path = Path(config.data_loader.images_path)
-
-        if preprocess_enabled and preprocessed_path and Path(preprocessed_path).exists() and (Path(preprocessed_path) / "TRAIN").exists():
-            print("Use preprocessed dataset")
-            train_path = Path(preprocessed_path) / "TRAIN"
-        else:
-            print("Use original dataset")
-            train_path = images_path / "TRAIN"
-
-            
-        test_path = images_path / "TEST"
+        train_path = Path(config.data_loader.images_path) / "TRAIN"
+        test_path = Path(config.data_loader.images_path) / "TEST"
 
         self.data_augmentation = tf.keras.Sequential([
             layers.RandomFlip("horizontal_and_vertical"),

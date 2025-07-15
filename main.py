@@ -4,7 +4,6 @@ from data_loader.blood_cell_data_loader import BloodCellDataLoader
 from models.blood_cell_model import ConvBloodCellModel
 from trainers.blood_cell_trainer import ConvBloodCellTrainer
 from utils.config import process_config
-from blood_cell_preprocessor import BloodCellPreprocessor, preprocess_dataset_offline
 
 from utils.dirs import create_dirs
 from utils.utils import get_args
@@ -32,29 +31,6 @@ def main():
             Path(dataset_path) / "dataset2-master" / "dataset2-master" / "images",
             Path(config.data_loader.images_path),
         )
-
-    # Check if preprocessing is enabled and needed
-    preprocess_enabled = getattr(config.data_loader, "enable_preprocessing", False)
-    preprocessed_path = getattr(config.data_loader, "preprocessed_images_path", None)
-
-    if preprocess_enabled and preprocessed_path:
-        preprocessed_path = Path(preprocessed_path)
-
-        # Check if preprocessed dataset already exists
-        if not preprocessed_path.exists() or not any(preprocessed_path.iterdir()):
-            print("Preprocessing enabled but preprocessed dataset not found.")
-
-            preprocessor = BloodCellPreprocessor(width=256, height=256)
-
-            preprocess_dataset_offline(
-                source_path=config.data_loader.images_path,
-                target_path=preprocessed_path,
-                preprocessor=preprocessor,
-            )
-
-            print("Preprocessing completed")
-        else:
-            print("Preprocessed dataset found, skipping preprocessing.")
 
     # set global tensorflow seed
     set_seed(config.exp.seed)
