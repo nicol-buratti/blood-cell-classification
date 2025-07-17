@@ -74,8 +74,8 @@ def plot_accuracy(trainer, config):
     save_path = Path(config.callbacks.checkpoint_dir).parent
 
     plt.figure(figsize=(6, 4))
-    plt.plot(trainer.epochs, trainer.acc, "bo-", label="Training Accuracy")
-    plt.plot(trainer.epochs, trainer.val_acc, "ro-", label="Validation Accuracy")
+    plt.plot(trainer.acc, "bo-", label="Training Accuracy")
+    plt.plot(trainer.val_acc, "ro-", label="Validation Accuracy")
     plt.title("Accuracy Over Epochs")
     plt.xlabel("Epochs")
     plt.ylabel("Accuracy")

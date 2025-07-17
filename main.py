@@ -56,7 +56,7 @@ def main():
     print("Start training the model.")
     trainer.train()
 
-    save_confusion_matrix(model, data_loader, config)
+    save_confusion_matrix(model.model, data_loader, config)
     plot_training_history(trainer, config)
     plot_loss(trainer, config)
     plot_accuracy(trainer, config)
