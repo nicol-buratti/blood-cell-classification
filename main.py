@@ -6,6 +6,12 @@ from trainers.blood_cell_trainer import ConvBloodCellTrainer
 from utils.config import process_config
 
 from utils.dirs import create_dirs
+from utils.result_plotter import (
+    plot_accuracy,
+    plot_loss,
+    plot_training_history,
+    save_confusion_matrix,
+)
 from utils.utils import get_args
 
 from tensorflow.random import set_seed
@@ -49,6 +55,11 @@ def main():
 
     print("Start training the model.")
     trainer.train()
+
+    save_confusion_matrix(model, data_loader, config)
+    plot_training_history(trainer, config)
+    plot_loss(trainer, config)
+    plot_accuracy(trainer, config)
 
 
 if __name__ == "__main__":
