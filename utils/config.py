@@ -11,7 +11,7 @@ def get_config_from_json(json_file):
     :return: config(namespace) or config(dictionary)
     """
     # parse the configurations from the config json file provided
-    with open(json_file, 'r') as config_file:
+    with open(json_file, "r") as config_file:
         config_dict = json.load(config_file)
 
     # convert the dictionary to a namespace using bunch lib
@@ -22,6 +22,16 @@ def get_config_from_json(json_file):
 
 def process_config(json_file):
     config, _ = get_config_from_json(json_file)
-    config.callbacks.tensorboard_log_dir = os.path.join("experiments", time.strftime("%Y-%m-%d/",time.localtime()), config.exp.name, "logs/")
-    config.callbacks.checkpoint_dir = os.path.join("experiments", time.strftime("%Y-%m-%d/",time.localtime()), config.exp.name, "checkpoints/")
+    config.callbacks.tensorboard_log_dir = os.path.join(
+        "experiments",
+        time.strftime("%Y-%m-%d_%H-%M", time.localtime()),
+        config.exp.name,
+        "logs/",
+    )
+    config.callbacks.checkpoint_dir = os.path.join(
+        "experiments",
+        time.strftime("%Y-%m-%d_%H-%M", time.localtime()),
+        config.exp.name,
+        "checkpoints/",
+    )
     return config
