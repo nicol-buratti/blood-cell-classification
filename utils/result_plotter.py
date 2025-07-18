@@ -1,4 +1,5 @@
 from pathlib import Path
+import shutil
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
@@ -86,3 +87,11 @@ def plot_accuracy(trainer, config):
     plt.savefig(save_path / "accuracy_over_epochs.png", dpi=300, bbox_inches="tight")
 
     plt.close()
+
+
+def save_model_file(config):
+    save_path = Path(config.callbacks.checkpoint_dir).parent
+    shutil.copy(
+        Path(__file__).parent / "models" / "blood_cell_model.py",
+        save_path / "blood_cell_model.py",
+    )

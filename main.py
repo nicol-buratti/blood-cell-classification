@@ -11,6 +11,7 @@ from utils.result_plotter import (
     plot_loss,
     plot_training_history,
     save_confusion_matrix,
+    save_model_file,
 )
 from utils.utils import get_args
 
@@ -60,6 +61,7 @@ def main():
     plot_training_history(trainer, config)
     plot_loss(trainer, config)
     plot_accuracy(trainer, config)
+    save_model_file(config)
 
 
 if __name__ == "__main__":
