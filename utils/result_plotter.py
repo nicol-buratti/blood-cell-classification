@@ -1,4 +1,5 @@
 from pathlib import Path
+import pickle
 import shutil
 import numpy as np
 import matplotlib.pyplot as plt
@@ -95,3 +96,9 @@ def save_model_file(config):
         Path(__file__).parent / "models" / "blood_cell_model.py",
         save_path / "blood_cell_model.py",
     )
+
+def save_training_data(trainer, config):
+    save_path = Path(config.callbacks.checkpoint_dir).parent
+    with open(save_path / 'trainer.pkl', 'wb') as f:
+        pickle.dump(trainer, f)
+    
