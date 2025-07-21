@@ -7,6 +7,7 @@ from keras import layers
 class BloodCellDataLoader(BaseDataLoader):
     def __init__(self, config):
         super(BloodCellDataLoader, self).__init__(config)
+        image_size = (config.data_loader.image_length, config.data_loader.image_width)
 
         train_path = Path(config.data_loader.images_path) / "TRAIN"
         test_path = Path(config.data_loader.images_path) / "TEST"
@@ -22,7 +23,7 @@ class BloodCellDataLoader(BaseDataLoader):
             train_path,
             batch_size=config.data_loader.batch_size,
             label_mode="categorical",
-            image_size=(256, 256),
+            image_size=image_size,
             shuffle=True,
             seed=getattr(config.exp, 'seed', 42)
         )
@@ -31,7 +32,7 @@ class BloodCellDataLoader(BaseDataLoader):
             test_path,
             batch_size=config.data_loader.batch_size,
             label_mode="categorical",
-            image_size=(256, 256),
+            image_size=image_size,
             shuffle=False
         )
 

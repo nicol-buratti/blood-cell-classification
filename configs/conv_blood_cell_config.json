@@ -5,7 +5,9 @@
   },
   "data_loader": {
     "images_path": "datasets/images",
-    "batch_size": 32
+    "batch_size": 32,
+    "image_length": 256,
+    "image_width": 256
   },
   "model": {
     "learning_rate": 0.001,
