@@ -92,6 +92,7 @@ def plot_accuracy(trainer, config):
 
 def save_model_file(config):
     save_path = Path(config.callbacks.checkpoint_dir).parent
+    print(Path(__file__).parent.parent / "models" / "blood_cell_model.py",)
     shutil.copy(
         Path(__file__).parent / "models" / "blood_cell_model.py",
         save_path / "blood_cell_model.py",
